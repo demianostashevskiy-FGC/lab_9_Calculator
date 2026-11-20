@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор</title>
+  <script>
+    
+    function getNumbers() {
+      let a = parseFloat(document.getElementById("num1").value);
+      let b = parseFloat(document.getElementById("num2").value);
+      if (isNaN(a) || isNaN(b)) {
+        alert("Будь ласка, введіть обидва числа!");
+        return null;
+      }
+      return [a, b];
+    }
+
+    function showResult(value) {
+      document.getElementById("result").innerHTML = value;
+    }
+
+    function add() {
+      let n = getNumbers();
+      if (n) showResult(n[0] + n[1]);
+    }
+
+    function subtract() {
+      let n = getNumbers();
+      if (n) showResult(n[0] - n[1]);
+    }
+
+    function multiply() {
+      let n = getNumbers();
+      if (n) showResult(n[0] * n[1]);
+    }
+
+    function divide() {
+      let n = getNumbers();
+      if (!n) return;
+      if (n[1] === 0) {
+        alert("На нуль ділити не можна!");
+        return;
+      }
+      showResult(n[0] / n[1]);
+    }
+
+    function saveData() {
+      let result = document.getElementById("result").innerHTML;
+      if (result && result !== "—") {
+        localStorage.setItem("calcResult", result);
+        alert("Результат збережено в localStorage!");
+      } else {
+        alert("Спочатку виконайте обчислення!");
+      }
+    }
+
+    function getData() {
+      let result = localStorage.getItem("calcResult");
+      if (result) {
+        showResult(result);
+        alert("Збережений результат: " + result);
+      } else {
+        alert("Результат не знайдено у localStorage!");
+      }
+    }
+
+    function removeData() {
+      localStorage.removeItem("calcResult");
+      alert("Результат видалено з localStorage!");
+    }
+
+    function clearData() {
+      localStorage.clear();
+      document.getElementById("num1").value = "";
+      document.getElementById("num2").value = "";
+      showResult("—");
+      alert("Всі дані очищено!");
+    }
+  </script>
+</head>
+<body>
+  <h1>Калькулятор</h1>
+
+  <label for="num1">Перше число:</label>
+  <input type="number" id="num1" name="num1" placeholder="Введіть число">
+  <br><br>
+  <label for="num2">Друге число:</label>
+  <input type="number" id="num2" name="num2" placeholder="Введіть число">
+  <br><br>
+
+  <button onclick="add()">Додати (+)</button>
+  <button onclick="subtract()">Відняти (−)</button>
+  <button onclick="multiply()">Помножити (×)</button>
+  <button onclick="divide()">Поділити (÷)</button>
+  <br><br>
+
+  <p>Результат: <b id="result">—</b></p>
+
+  <button onclick="saveData()">Зберегти результат</button>
+  <button onclick="getData()">Отримати результат</button>
+  <button onclick="removeData()">Видалити результат</button>
+  <button onclick="clearData()">Очистити все</button>
+</body>
+</html>
